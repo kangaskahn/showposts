@@ -16,6 +16,6 @@ Have fun!
 
 To-do:
 
-- Fix date and post date
-- Allow for the ability to add category ID's instead of *only* names
+- Fix date and post date (does there need to be two?!)
+- Ability to add category ID's instead of *only* names
 - Allow for the construction of more pylons

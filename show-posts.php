@@ -12,7 +12,7 @@
 //  Orderby = What you would like to order the posts by (title, date, etc)
 //  Order = Ascending (ASC) or Descending (DESC)
 //  Postdate = If you want to show the post date
-//	listmode = Allows for each post to be displayed as a list item instead of a div
+//  listmode = Allows for each post to be displayed as a list item instead of a div (does not include excerpt)
 //
 
 function short_show_posts($atts) {

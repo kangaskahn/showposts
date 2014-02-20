@@ -4,7 +4,7 @@
 //
 //  [showposts count ="2" category="news"]
 //
-//  title = Allows you to add a title to the post (for some reason HTML printed before the shortcode show up at the end)
+//  Title = Allows you to add a title at the top
 //  Count = the amount of posts you wish to display
 //  Category = the NAME of the category you wish to display
 //  Excerpt = Set to true if you want the excerpt, false if you do not
@@ -12,7 +12,7 @@
 //  Orderby = What you would like to order the posts by (title, date, etc)
 //  Order = Ascending (ASC) or Descending (DESC)
 //  Postdate = If you want to show the post date
-//  listmode = Allows for each post to be displayed as a list item instead of a div (does not include excerpt)
+//  Listmode = Allows for each post to be displayed as a list item instead of a div (does not include excerpt)
 //
 
 function short_show_posts($atts) {

@@ -1,4 +1,4 @@
-Showposts
+ShowPosts
 =========
 
 A simple Wordpress function with short-code that grabs certain categories of posts for display on pages, posts, or templates. Feel free to edit, modify, submit changes, etc.
@@ -16,6 +16,7 @@ Have fun!
 
 To-do:
 
+- Adding a better documentation
 - Fix date and post date (does there need to be two?!)
 - Ability to add category ID's instead of *only* names
 - Allow for the construction of more pylons

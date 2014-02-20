@@ -11,3 +11,11 @@ Take the contents of the show-posts.php file and place inside of the functions.p
 
 Have fun!
 ---------
+
+
+
+To-do:
+
+- Fix date and post date
+- Allow for the ability to add category ID's instead of *only* names
+- Allow for the construction of more pylons

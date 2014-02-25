@@ -24,4 +24,4 @@ To-do:
 Updates:
 --------
 
-- Added a *filtermode* which prints the category slugs as classes in the div conatining the post. This [allows for filtering via jQuery])http://stackoverflow.com/a/16149592)
+- Added a *filtermode* which prints the category slugs as classes in the div conatining the post. This [allows for filtering via jQuery](http://stackoverflow.com/a/16149592)

@@ -20,3 +20,8 @@ To-do:
 - Fix date and post date (does there need to be two?!)
 - Ability to add category ID's instead of *only* names
 - Allow for the construction of more pylons
+
+Updates:
+--------
+
+- Added a *filtermode* which prints the category slugs as classes in the div conatining the post. This (allows for filtering via jQuery)[http://stackoverflow.com/a/16149592]

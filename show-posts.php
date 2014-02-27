@@ -1,84 +1,105 @@
-//Custom function allowing the display of posts in a certain category -- 02-18-2014 -- Author: Matt Vona
-//Shortcode example:
-//
-//  [showposts count ="2" category="news"]
-//
-//  title = Allows you to add a title to the post (for some reason HTML printed before the shortcode show up at the end)
-//  Count = the amount of posts you wish to display
-//  Category = the NAME of the category you wish to display
-//  Excerpt = Set to true if you want the excerpt, false if you do not
-//  Date = Set to true if you want the date, false if you do not
-//  Orderby = What you would like to order the posts by (title, date, etc)
-//  Order = Ascending (ASC) or Descending (DESC)
-//  Postdate = If you want to show the post date
-//	listmode = Allows for each post to be displayed as a list item instead of a div
-//	filtermode = Allows the category slugs to be displayed as a list of classes for filtering
-//	(more documentation:)
-//	https://github.com/kangaskahn/showposts
-//
+/**
+ * Shortcode allowing the display of posts in a certain category
+ *
+ * `[showposts count="2" category="news"]`
+ *
+ * More info in `README.MD`.
+ *
+ * Refer to the WordPress Codex page on WP_Query:
+ * http://codex.wordpress.org/Class_Reference/WP_Query
+ *
+ * Options:
+ *
+ * - title    = Adds a title to the post (for some reason HTML printed
+ * before the shortcode show up at the end). Default is none.
+ *
+ * - hsize    = An integer between 1 and 6 for specifying `<h?>` tag.
+ * Default is `2` for an output of `<h2>`.
+ *
+ * - count    = the amount of posts you wish to display. Default is 1.
+ *
+ * - category = the name/slug of the category you wish to display.
+ * Separate multiple with a comma *without spaces*, e.g. `news,events,media`.
+ *
+ * - excerpt  = Set to false to hide the excerpt. Default is true.
+ *
+ * - postdate = Set to false to hide the date. Default is true.
+ *
+ * - orderby  = Order posts by one of the WP_Query `orderby` params. Default is 'date'.
+ * http://codex.wordpress.org/Class_Reference/WP_Query#Order_.26_Orderby_Parameters
+ *
+ * - order    = Ascending ('ASC') or descending ('DESC'). Default is 'DESC'.
+ *
+ * - listmode = Allows for each post to be displayed as a list item instead of a div
+ *
+ * @param  [type] $atts [description]
+ * @return [type]       [description]
+ */
+function smc_shortcode_post_display($atts) {
+    // Start output buffering
+    // Prevents the script from echoing until the end.
+    // http://us1.php.net/ob_start
+    ob_start();
 
-function short_show_posts($atts) {
-    ob_start(); //Turns on output buffering - prevents the script from echoing until the end. http://us1.php.net/ob_start
-    wp_reset_query(); //resets the global query so we can use the the_title(); like functions on the posts we grab
-	extract(shortcode_atts(array( //creates shortcode options for the function, they become variables with a default value
-		"title" => '',
-		"hsize" => '2',
-		"description" => '',
-		"count" => '1',
-		"category" => 'news', //multiple categories can be separated by a comma: 'news,events,media'
-		"excerpt" => 'true',
-		"date" => 'true',
-		"orderby" => 'date',
-		"order" => 'DESC',
-		"postdate" => 'true', //remember these aren't actually booleans, they are strings so it works with the shortcode
-		"listmode" => 'false',
-		"filtermode" => 'false'
+    wp_reset_query();
+
+    // Create shortcode options for the function, they become variables with a default value
+    extract(shortcode_atts(array(
+        "count" => '1',
+        "category" => '',
+        "excerpt" => 'true',
+        "orderby" => 'date',
+        "order" => 'DESC',
+        "postdate" => 'true',
+        "titleonly" => 'false',
+        "showcategories" => 'true'
     ), $atts));
 
     $args = array( //arguments for the WP_Query() function. Feel free to add more if needed
-		'posts_per_page' => $count,
-		'category_name' => $category,
-		'orderby' => $orderby,
-		'order' => $order
-	);
+        'posts_per_page' => $count,
+        'category_name' => $category,
+        'orderby' => $orderby,
+        'order' => $order
+    );
 
-    //Basic Options
-	if ($title != '') { echo "<h". $hsize .">" . $title . "</h". $hsize .">"; }
-	if ($description != '') { echo "<p>" . $description . "<p>"; }
-	if ($listmode == "true") { echo "<ul>"; }
+    // Create a new WP_Query to grab the posts
+    $my_query = new WP_Query( $args );
+    while ($my_query->have_posts()) : $my_query->the_post();
 
-	$my_query = new WP_Query( $args ); //Creates a new WP_Query to grab the posts, Awesome!
-	while ($my_query->have_posts()) : $my_query->the_post();
+    // OUTPUT: ?>
 
-	if ($listmode == "false") { ?>
-		<div id="post-<?php the_ID(); ?>" class="<?php if ($filtermode == "true") { foreach((get_the_category()) as $cat) { echo $cat->slug  . ' '; } } ?>">
-			<div>
-				<h3><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>"><?php the_title(); ?></a></h3>
-				<hr class="remove-bottom">
-			</div>
-			<div>
-				<?php //wpe_excerpt('wpe_excerptlength_index', '');
-				if ($excerpt == "true") {  the_excerpt(); }?>
-				<div class="clear"></div>
-				<?php foreach((get_the_category()) as $cat) { echo $cat->cat_name. ', '; } ?>
-			</div>
-			<div class="row"><br /></div>
+            <div id="post-<?php the_ID(); ?>" class="shortposts <?php foreach((get_the_category()) as $cat) { echo $cat->slug  . ' '; } ?>">
+            <h3><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>"><?php the_title(); ?></a></h3>
 
-			<?php if ($postdate == "true") { ?> <small>Posted on <?php echo mysql2date('M j Y', the_date()); ?></small> <?php } ?>
-		</div>
-	<?php } else { //if it is a listmode?>
-		<li><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>"><?php the_title(); ?></a></li>
-	<?php }
+    <?php if ($titleonly === "false") { ?>
 
-    endwhile;
-    if ($listmode == "true") { echo "</ul>"; }
-    ?>
-    <div class="clear"></div>
-    <?php //the div.clear is specific to the skeleton boilerplate, needed for the wordpress theme.
+        <?php if ($excerpt === "true") : ?>
+            <div class="shortposts-excerpt">
+                <?php the_excerpt(); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($showcategories === "true") : ?>
+            <div class="shortposts-categories">
+                <?php foreach((get_the_category()) as $cat) { echo $cat->cat_name. ', '; } ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($postdate === "true") : ?>
+            <div class="shortposts-entry-meta">
+                <?php esemci_entry_meta(); ?>
+            </div>
+        <?php endif; ?>
+
+            </div>
+    <?php
+
+    } //end if titleonly === false
+        endwhile;
         $html = ob_get_contents(); //grabs output buffer contents for display
         ob_end_clean();
             return $html;
-} // end short_show_posts()
+    } // end smc_shortcode_post_display()
 
 //adds the shortcode for the show posts functions
-add_shortcode('showposts', 'short_show_posts');
+add_shortcode('showposts', 'smc_shortcode_post_display');

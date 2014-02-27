@@ -45,7 +45,7 @@ Refer to the [WordPress Codex page on WP_Query](http://codex.wordpress.org/Class
 
 `showcategories`
 : Set to true to display the categories at the bottom of the post in this format:
-: `News, Events, Products`
+: News, Events, Products
 
 ###Have fun!
 ----

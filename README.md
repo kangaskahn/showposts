@@ -15,20 +15,17 @@ Refer to the [WordPress Codex page on WP_Query](http://codex.wordpress.org/Class
 
 #### Options:
 
+`category`
+: the name/slug of the category you wish to display.
+:Now allows for category slug name or category IDs separated by commas with no spaces. `category="1,2,3"` or `category="news,events,stats"`
+: Default is none.
+
 `count`
 : the amount of posts you wish to display.
-: Default is 1.
-
-`category`
-: the name/slug of the category you wish to display. Separate multiple with a comma *without spaces*, e.g. `news,events,media`.
-: Default is none.
+: Default is `-1`, for unlimited posts.
 
 `excerpt`
 : Set to false to hide the excerpt.
-: Default is true.
-
-`postdate`
-: Set to false to hide the date.
 : Default is true.
 
 `orderby`
@@ -39,13 +36,17 @@ Refer to the [WordPress Codex page on WP_Query](http://codex.wordpress.org/Class
 : Ascending ('ASC') or descending ('DESC').
 : Default is 'DESC'.
 
+`postdate`
+: Set to false to hide the date.
+: Default is true.
+
+`showcategories`
+: Set to true to display the categories at the bottom of the post, with links.
+: Example: "News, Events, Products"
+
 `titleonly`
 : Set to true to only show the title
 : Default is false.
-
-`showcategories`
-: Set to true to display the categories at the bottom of the post in this format:
-: News, Events, Products
 
 ###Have fun!
 ----
